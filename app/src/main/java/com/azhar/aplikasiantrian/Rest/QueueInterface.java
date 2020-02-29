@@ -18,16 +18,10 @@ public interface QueueInterface {
     @FormUrlEncoded
     @POST("api/queue/antrian")
     Call<CurrentResponse> getQueueList(@Field("loket_id") String services_id);
-
-//    @POST("api/queue/call")
-//    Call<QueueResponse> doCall(@Field("loket_id") String services_id);
-//    @FormUrlEncoded
-//    @POST("api/queue/recall")
-//    Call<QueueResponse> doRecall(@Field("loket_id") String services_id);
     @GET("api/queue/loket")
     Call<ResponseLoket> getLoket();
     @GET("Services/callTo/{loket}")
     Call<ResponseCall> restCall(@Path("loket") String loket);
-    @GET("Services/recall")
-    Call<ResponseRecall> restRecall();
+    @GET("Services/recallTo/{loket}")
+    Call<ResponseRecall> restRecall(@Path("loket") String loket);
 }

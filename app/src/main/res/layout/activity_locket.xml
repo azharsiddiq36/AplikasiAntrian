@@ -36,14 +36,14 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvLoket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/cormorant_medium"
-        android:text="Daftar Loket"
+        android:text="Nama Loket"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -64,7 +64,7 @@
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLoket" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

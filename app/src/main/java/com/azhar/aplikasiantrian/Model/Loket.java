@@ -11,14 +11,34 @@ public class Loket {
     private String loketNomor;
     @SerializedName("loket_layanan_id")
     private String loketLayananId;
+    @SerializedName("loket_waktu_panggilan")
+    private String loketWaktuPanggilan;
     @SerializedName("loket_date_created")
     private String loketDateCreated;
     @SerializedName("layanan_id")
     private String layananId;
     @SerializedName("layanan_nama")
     private String layananNama;
+    @SerializedName("layanan_awalan")
+    private String layananAwalan;
     @SerializedName("layanan_date_created")
     private String layananDateCreated;
+
+    public String getLoketWaktuPanggilan() {
+        return loketWaktuPanggilan;
+    }
+
+    public void setLoketWaktuPanggilan(String loketWaktuPanggilan) {
+        this.loketWaktuPanggilan = loketWaktuPanggilan;
+    }
+
+    public String getLayananAwalan() {
+        return layananAwalan;
+    }
+
+    public void setLayananAwalan(String layananAwalan) {
+        this.layananAwalan = layananAwalan;
+    }
 
     public String getLoketId() {
         return loketId;

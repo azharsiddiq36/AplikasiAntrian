@@ -15,9 +15,49 @@ public class Sekarang {
     private String antrianDateCreated;
     @SerializedName("antrian_status")
     private String antrianStatus;
+    @SerializedName("layanan_id")
+    private String layananId;
+    @SerializedName("layanan_nama")
+    private String layananNama;
+    @SerializedName("layanan_awalan")
+    private String layananAwalan;
+    @SerializedName("layanan_date_created")
+    private String layananDateCreated;
 
     public String getAntrianId() {
         return antrianId;
+    }
+
+    public String getLayananId() {
+        return layananId;
+    }
+
+    public void setLayananId(String layananId) {
+        this.layananId = layananId;
+    }
+
+    public String getLayananNama() {
+        return layananNama;
+    }
+
+    public void setLayananNama(String layananNama) {
+        this.layananNama = layananNama;
+    }
+
+    public String getLayananAwalan() {
+        return layananAwalan;
+    }
+
+    public void setLayananAwalan(String layananAwalan) {
+        this.layananAwalan = layananAwalan;
+    }
+
+    public String getLayananDateCreated() {
+        return layananDateCreated;
+    }
+
+    public void setLayananDateCreated(String layananDateCreated) {
+        this.layananDateCreated = layananDateCreated;
     }
 
     public void setAntrianId(String antrianId) {

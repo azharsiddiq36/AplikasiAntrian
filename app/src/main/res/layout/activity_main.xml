@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -80,7 +84,12 @@
             android:lines="1"
             android:paddingLeft="12dp"
             android:textSize="20sp" />
-
+        <LinearLayout
+            android:id="@+id/lyVis"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,9 +109,50 @@
             android:lines="1"
             android:paddingLeft="12dp"
             android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Pilih Loket"
+            android:textColor="#000000"
+            android:fontFamily="@font/cormorant_light"
+            android:textSize="20sp" />
+        <Spinner
+            android:id="@+id/chooseLoket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="Select Loket"
+            android:backgroundTint="#fff"
+            android:textSize="17dp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLoket" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Pilih Loket Alternatif"
+                android:textColor="#000000"
+                android:fontFamily="@font/cormorant_light"
+                android:textSize="20sp" />
+            <Spinner
+                android:id="@+id/chooseLoket2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Select Loket"
+                android:backgroundTint="#fff"
+                android:textSize="17dp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLoket" />
+        </LinearLayout>
         <LinearLayout
+
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:layout_marginTop="30dp"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/lyBack"
@@ -133,7 +183,8 @@
                 android:fontFamily="@font/cormorant_bold"
                 android:text="Terapkan"
                 android:textColor="#fff"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

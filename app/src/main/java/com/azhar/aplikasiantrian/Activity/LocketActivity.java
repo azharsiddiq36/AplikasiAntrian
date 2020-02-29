@@ -38,31 +38,31 @@ public class LocketActivity extends AppCompatActivity {
     SessionManager sessionManager;
     HashMap<String, String> map;
     Handler handler;
-    @BindView(R.id.chooseLoket)
-    Spinner chooseLoket;
     @BindView(R.id.tvCurrent)
     TextView tvCurrent;
-    @BindView(R.id.tvRest)
-    TextView tvRest;
-    @BindView(R.id.tvTotal)
-    TextView tvTotal;
+    @BindView(R.id.textView3)
+            TextView information;
+    @BindView(R.id.tvLoket)
+            TextView tvLoket;
     QueueInterface queueInterface;
     String TAG = "kambing";
     private static Retrofit retrofit = null;
     public static String BASE_URL = "";
-    String[] loket;
     String currentloket;
-    ArrayList<Loket> list_loket = new ArrayList<>();
+    String currentloket2;
     @BindView(R.id.tvSetting)
     TextView tvSetting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_locket);
+        setContentView(R.layout.activity_loket);
         ButterKnife.bind(this);
 
         sessionManager = new SessionManager(LocketActivity.this);
         map = sessionManager.getDetailsLoggin();
+        currentloket = map.get(sessionManager.KEY_PENGGUNA_LOKET);
+        currentloket2 = map.get(sessionManager.KEY_PENGGUNA_LOKET2);
+        Log.d(TAG, "onCreate: "+currentloket2);
         tvSetting.setText("Selamat Bertugas "+map.get(sessionManager.KEY_PENGGUNA_USERNAME));
         handler = new Handler();
         if (sessionManager.isLogin()) {
@@ -74,24 +74,7 @@ public class LocketActivity extends AppCompatActivity {
                         .build();
             }
             queueInterface = retrofit.create(QueueInterface.class);
-            loadLoket();
-            chooseLoket.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                    for (int i = 0; i < list_loket.size(); i++) {
-                        if (list_loket.get(i).getLoketNama().equals(chooseLoket.getSelectedItem())) {
-                            currentloket = list_loket.get(i).getLoketId();
-                            handler.postDelayed(m_Runnable,1000);
-                        }
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
+            m_Runnable.run();
         } else {
             startActivity(new Intent(LocketActivity.this, MainActivity.class).
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -108,15 +91,13 @@ public class LocketActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CurrentResponse> call, Response<CurrentResponse> response) {
                 if (response.body().getStatus() == 200) {
-                    if (response.body().getSekarang().getAntrianNomor().toString().equals("1") && response.body().getTotal().toString().equals("0")){
-                        tvCurrent.setText("0");
-                    }
-                    else{
-                        tvCurrent.setText(String.valueOf(response.body().getSekarang().getAntrianNomor()));
-                    }
+                    tvLoket.setText(response.body().getSekarang().getLayananNama()+"\n("+response.body().getData().get(0).getLoketNama()+")");
 
-                    tvRest.setText(String.valueOf(response.body().getSisa()));
-                    tvTotal.setText(String.valueOf(response.body().getTotal()));
+                            tvCurrent.setText(String.valueOf(response.body().getSekarang().getLayananAwalan().toUpperCase())+"-0"+String.valueOf(response.body().getSekarang().getAntrianNomor()));
+                            information.setText("Tersisa "+response.body().getSisa()+" Antrian Lagi");
+
+
+
                 }
             }
 
@@ -130,35 +111,7 @@ public class LocketActivity extends AppCompatActivity {
     /*
         Memanggil respon untuk melihat daftar loket dan meletakkannya kedalam list
      */
-    private void loadLoket() {
-        Call<ResponseLoket> responseLoketCall = queueInterface.getLoket();
-        responseLoketCall.enqueue(new Callback<ResponseLoket>() {
-            @Override
-            public void onResponse(Call<ResponseLoket> call, Response<ResponseLoket> response) {
-                if (response.body().getStatus() == 200) {
-                    list_loket = (ArrayList<Loket>) response.body().getData();
-                    loket = new String[list_loket.size() + 1];
-                    for (int i = 0; i <= list_loket.size(); i++) {
-                        if (i == 0) {
-                            loket[i] = "---Pilih Loket---";
-                        } else {
-                            loket[i] = list_loket.get(i - 1).getLoketNama();
-                        }
-                    }
-                    final ArrayAdapter<String> loket_adapter = new ArrayAdapter<>(LocketActivity.this,
-                            R.layout.sploket, loket);
-                    chooseLoket.setAdapter(loket_adapter);
-                } else {
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseLoket> call, Throwable t) {
-
-            }
-        });
-    }
 
     @Override
     protected void onPause() {
@@ -179,7 +132,7 @@ public class LocketActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnRecall)
     protected void btnRecall(View view) {
-        restRecall();
+        restRecall(currentloket);
     }
 
     @OnClick(R.id.tvSetting)
@@ -201,7 +154,6 @@ public class LocketActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LocketActivity.this, "Antrian Habis", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
@@ -214,13 +166,13 @@ public class LocketActivity extends AppCompatActivity {
     /*
         Semua Perintah Recall ada dibagian ini
      */
-    private void restRecall() {
-        Call<ResponseRecall> data = queueInterface.restRecall();
+    private void restRecall(String id) {
+        Call<ResponseRecall> data = queueInterface.restRecall(id);
         data.enqueue(new Callback<ResponseRecall>() {
             @Override
             public void onResponse(Call<ResponseRecall> call, Response<ResponseRecall> response) {
                 if (response.body().getStatus().equals("200")) {
-                    Toast.makeText(LocketActivity.this, "Memanggil Nomor Urut" + response.body().getData().getPanggilanAntrian(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LocketActivity.this, "Memanggil Nomor Urut" + response.body().getData().getAntrianNomor(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LocketActivity.this, "Antrian Habis", Toast.LENGTH_SHORT).show();
                 }
