@@ -11,8 +11,11 @@ public class SessionManager {
     public static final String KEY_PENGGUNA_ID = "id";
     public static final String KEY_PENGGUNA_USERNAME = "username";
     public static final String KEY_PENGGUNA_DOMAIN = "domain";
-    public static final String KEY_PENGGUNA_LOKET = "loket";
-    public static final String KEY_PENGGUNA_LOKET2 = "loket2";
+    public static final String KEY_PENGGUNA_LAYANAN = "layanan";
+    public static final String KEY_PENGGUNA_LOCKET = "locket";
+    public static final String KEY_PENGGUNA_LAYANAN_NAMA = "layanan_nama";
+    public static final String KEY_PENGGUNA_LOKET_NAMA = "loket_nama";
+    public static final String KEY_PENGGUNA_LAYANAN_AWALAN = "layanan_awalan";
     public static final String LOGGIN_STATUS = "sudahlogin";
     public static final String SHARE_NAME = "logginsession";
 
@@ -27,13 +30,19 @@ public class SessionManager {
 
     public void saveLogin(String PENGGUNA_USERNAME,
                           String domain,
-                          String loket,
-                          String loket2) {
+                          String layanan,
+                          String locket,
+                          String nama_layanan,
+                          String nama_loket,
+                          String awalan_layanan) {
         editor.putBoolean(LOGGIN_STATUS, true);
         editor.putString(KEY_PENGGUNA_USERNAME, PENGGUNA_USERNAME);
-        editor.putString(KEY_PENGGUNA_LOKET, loket);
-        editor.putString(KEY_PENGGUNA_LOKET2, loket2);
+        editor.putString(KEY_PENGGUNA_LAYANAN, layanan);
+        editor.putString(KEY_PENGGUNA_LOCKET, locket);
         editor.putString(KEY_PENGGUNA_DOMAIN, domain);
+        editor.putString(KEY_PENGGUNA_LAYANAN_NAMA, nama_layanan);
+        editor.putString(KEY_PENGGUNA_LOKET_NAMA, nama_loket);
+        editor.putString(KEY_PENGGUNA_LAYANAN_AWALAN, awalan_layanan);
          editor.commit();
     }
 
@@ -41,9 +50,12 @@ public class SessionManager {
         HashMap<String, String> map = new HashMap<>();
         map.put(KEY_PENGGUNA_ID, sharedPreferences.getString(KEY_PENGGUNA_ID, null));
         map.put(KEY_PENGGUNA_USERNAME, sharedPreferences.getString(KEY_PENGGUNA_USERNAME, null));
-        map.put(KEY_PENGGUNA_LOKET, sharedPreferences.getString(KEY_PENGGUNA_LOKET, null));
-        map.put(KEY_PENGGUNA_LOKET2, sharedPreferences.getString(KEY_PENGGUNA_LOKET2, null));
+        map.put(KEY_PENGGUNA_LAYANAN, sharedPreferences.getString(KEY_PENGGUNA_LAYANAN, null));
+        map.put(KEY_PENGGUNA_LOCKET, sharedPreferences.getString(KEY_PENGGUNA_LOCKET, null));
         map.put(KEY_PENGGUNA_DOMAIN, sharedPreferences.getString(KEY_PENGGUNA_DOMAIN, null));
+        map.put(KEY_PENGGUNA_LAYANAN_NAMA, sharedPreferences.getString(KEY_PENGGUNA_LAYANAN_NAMA, null));
+        map.put(KEY_PENGGUNA_LOKET_NAMA, sharedPreferences.getString(KEY_PENGGUNA_LOKET_NAMA, null));
+        map.put(KEY_PENGGUNA_LAYANAN_AWALAN, sharedPreferences.getString(KEY_PENGGUNA_LAYANAN_AWALAN, null));
         return map;
     }
 

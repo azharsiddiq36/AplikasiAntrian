@@ -42,7 +42,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="@font/cormorant_medium"
+
         android:text="Pengaturan Alamat Server"
         android:textAlignment="center"
         android:textSize="30sp"
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/cormorant_light"
+
             android:text="IP Server"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -90,35 +90,16 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="Nama"
-            android:textColor="#000000"
-            android:fontFamily="@font/cormorant_light"
-            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/etPegawai"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_input_edit"
-            android:hint="Nama Pegawai"
-            android:lines="1"
-            android:paddingLeft="12dp"
-            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="Pilih Loket"
+            android:text="Pilih Layanan"
             android:textColor="#000000"
-            android:fontFamily="@font/cormorant_light"
             android:textSize="20sp" />
         <Spinner
-            android:id="@+id/chooseLoket"
+            android:id="@+id/chooseLayanan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="Select Loket"
@@ -132,12 +113,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="Pilih Loket Alternatif"
+                android:text="Pilih loket"
                 android:textColor="#000000"
-                android:fontFamily="@font/cormorant_light"
                 android:textSize="20sp" />
             <Spinner
-                android:id="@+id/chooseLoket2"
+                android:id="@+id/chooseLoket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="Select Loket"
@@ -147,6 +127,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvLoket" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Nama Pegawai"
+                android:textColor="#000000"
+
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/etPegawai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:focusable="false"
+                android:lines="1"
+                android:paddingLeft="12dp"
+                android:textSize="20sp" />
         </LinearLayout>
         <LinearLayout
 
@@ -180,7 +178,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_btn"
-                android:fontFamily="@font/cormorant_bold"
                 android:text="Terapkan"
                 android:textColor="#fff"
                 android:textSize="15sp" />

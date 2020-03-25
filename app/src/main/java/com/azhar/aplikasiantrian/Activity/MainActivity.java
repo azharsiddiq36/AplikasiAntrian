@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.azhar.aplikasiantrian.Adapter.ActionBarCallback;
+import com.azhar.aplikasiantrian.Model.Layanan;
 import com.azhar.aplikasiantrian.Model.Loket;
+import com.azhar.aplikasiantrian.Model.ResponseLayanan;
 import com.azhar.aplikasiantrian.Model.ResponseLoket;
 import com.azhar.aplikasiantrian.R;
 import com.azhar.aplikasiantrian.Rest.QueueInterface;
@@ -44,28 +48,32 @@ public class MainActivity extends AppCompatActivity {
     EditText etDomain;
     @BindView(R.id.chooseLoket)
     Spinner chooseLoket;
-    @BindView(R.id.chooseLoket2)
-    Spinner chooseLoket2;
+    @BindView(R.id.chooseLayanan)
+    Spinner chooseLayanan;
     @BindView(R.id.lyVis)
     LinearLayout lyVis;
-    String[] loket;
-    String[] loket2;
-    String currentloket;
-    String currentloket2;
+    String currentLayanan;
+    String currentLoket;
     ArrayList<Loket> list_loket = new ArrayList<>();
-    ArrayList<Loket> list_loket2 = new ArrayList<>();
+    ArrayList<Layanan> list_layanan = new ArrayList<>();
     @BindView(R.id.etPegawai)
-    EditText etPegawai;
+    TextView etPegawai;
+    String loket[];
+    String layanan[];
     SessionManager sessionManager;
     HashMap<String,String> map;
     QueueInterface queueInterface;
     private static Retrofit retrofit = null;
     public String BASE_URL= "";
     String TAG = "Kambing";
-    ActionMode mActionMode;
     ClipboardManager clipboardManager;
-    ClipData clipData;
+
     SweetAlertDialog pDialog;
+    Handler handler;
+    HashMap<String,String> services;
+    HashMap<String,String> locket;
+    HashMap <String,String> pengguna;
+    HashMap<String,String> awalan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,14 +82,9 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = new SessionManager(MainActivity.this);
         map = sessionManager.getDetailsLoggin();
         clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-
+        handler = new Handler();
 
     }
-//    @OnLongClick(R.id.etDomain)
-//    protected boolean etDomain(View view){
-//        mActionMode = MainActivity.this.startActionMode(new ActionBarCallback(MainActivity.this,etDomain));
-//        return true;
-//    }
     @OnClick(R.id.lyBack)
     protected void lyBack(View view){
         onBackPressed();
@@ -109,111 +112,115 @@ public class MainActivity extends AppCompatActivity {
         }
 
         queueInterface = retrofit.create(QueueInterface.class);
-        Call<ResponseLoket> tes = queueInterface.getLoket();
-        tes.enqueue(new Callback<ResponseLoket>() {
-            @Override
-            public void onResponse(Call<ResponseLoket> call, Response<ResponseLoket> response) {
-                pDialog.hide();
-                if (response.body().getStatus() == 200 ) {
-                        if (currentloket==null){
+        if (currentLoket == null){
+            loadLayanan();
+        }
+        else{
+            Log.d(TAG, "btnSetting: "+currentLayanan);
+            sessionManager.saveLogin(etPegawai.getText().toString(),etDomain.getText().toString(),services.get(currentLayanan),locket.get(currentLoket),currentLayanan,currentLoket,awalan.get(currentLayanan));
+            Intent gotoloket = new Intent(MainActivity.this, LocketActivity.class);
+            startActivity(gotoloket);
+        }
+    }
 
-                            lyVis.setVisibility(View.VISIBLE);
-                            loadLoket();
-                            getLoket();
+    private final Runnable m_Runnable = new Runnable() {
+        public void run() {
+            if (currentLayanan == null){
+                currentLayanan = chooseLayanan.getSelectedItem().toString();
+            }
+            else if(currentLayanan != chooseLayanan.getSelectedItem().toString()){
+                currentLayanan = chooseLayanan.getSelectedItem().toString();
+                loadLoket();
+            }
+            if (chooseLoket.getSelectedItem() == null){
+
+            }
+            else{
+                currentLoket = chooseLoket.getSelectedItem().toString();
+                etPegawai.setText(pengguna.get(currentLoket));
+            }
+
+
+            MainActivity.this.handler.postDelayed(m_Runnable, 100);
+        }
+    };
+
+
+
+    private void loadLayanan() {
+        services = new HashMap<>();
+        awalan = new HashMap<>();
+        Call<ResponseLayanan> responseLayananCall = queueInterface.getListServices();
+        responseLayananCall.enqueue(new Callback<ResponseLayanan>() {
+            @Override
+            public void onResponse(Call<ResponseLayanan> call, Response<ResponseLayanan> response) {
+                pDialog.dismiss();
+                if (response.body().getStatus() == 200){
+                    if (currentLayanan == null && currentLoket ==null){
+                        lyVis.setVisibility(View.VISIBLE);
+                        list_layanan = (ArrayList<Layanan>) response.body().getData();
+                        layanan = new String[list_layanan.size()+1];
+                        for (int i =0;i<layanan.length;i++){
+                            if(i ==0){
+                                layanan[i] = "---Pilih Layanan---";
+                                services.put("0","pilihlayanan");
+                            }
+                            else{
+                                services.put(list_layanan.get(i-1).getLayananNama(),list_layanan.get(i-1).getLayananId());
+                                awalan.put(list_layanan.get(i-1).getLayananNama(),list_layanan.get(i-1).getLayananAwalan());
+                                layanan[i] = list_layanan.get(i-1).getLayananNama();
+                            }
                         }
-                        else{
-
-                            sessionManager.saveLogin(etPegawai.getText().toString(),etDomain.getText().toString(),currentloket,currentloket2);
-                            Intent gotoloket = new Intent(MainActivity.this, LocketActivity.class);
-                            startActivity(gotoloket);
-//                        sessionManager.logout();
-//                        sessionManager.saveLogin(etPegawai.getText().toString(), etDomain.getText().toString());
+                        final ArrayAdapter<String> layanan_adapter = new ArrayAdapter<>(MainActivity.this,
+                                R.layout.sploket, layanan);
+                        chooseLayanan.setAdapter(layanan_adapter);
+                        m_Runnable.run();
                     }
 
                 }
-                else{
-                    Toast.makeText(MainActivity.this, "Harap Periksa Kembali Jaringan Anda", Toast.LENGTH_SHORT).show();
-                }
             }
+
             @Override
-            public void onFailure(Call<ResponseLoket> call, Throwable t) {
-                pDialog.hide();
+            public void onFailure(Call<ResponseLayanan> call, Throwable t) {
+                pDialog.dismiss();
                 pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
-                        pDialog.setTitleText("Oops...");
-                        pDialog.setContentText("Sepertinya domain yang anda masukkan salah");
-                        pDialog.show();
-                //Toast.makeText(MainActivity.this, "Harap periksa kembali Domain yang anda masukkan", Toast.LENGTH_SHORT).show();
+                pDialog.setTitleText("Oops...");
+                pDialog.setContentText("Sepertinya domain yang anda masukkan salah");
+                pDialog.show();
             }
         });
     }
-
-    private void getLoket() {
-        chooseLoket.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                for (int i = 0; i < list_loket.size(); i++) {
-                    if (list_loket.get(i).getLoketNama().equals(chooseLoket.getSelectedItem())) {
-                        currentloket = list_loket.get(i).getLoketId();
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        chooseLoket2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                for (int i = 0; i < list_loket2.size(); i++) {
-                    if (list_loket2.get(i).getLoketNama().equals(chooseLoket.getSelectedItem())) {
-                        currentloket = list_loket2.get(i).getLoketId();
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    /*
-        Periksa Apakah Domain Sudah Benar atau Belum
-     */
     private void loadLoket() {
-        Call<ResponseLoket> responseLoketCall = queueInterface.getLoket();
+        locket = new HashMap<>();
+        pengguna = new HashMap<>();
+        Call<ResponseLoket> responseLoketCall = queueInterface.getListLoket(services.get(currentLayanan));
         responseLoketCall.enqueue(new Callback<ResponseLoket>() {
             @Override
             public void onResponse(Call<ResponseLoket> call, Response<ResponseLoket> response) {
-                if (response.body().getStatus() == 200) {
-                    list_loket = (ArrayList<Loket>) response.body().getData();
-                    loket = new String[list_loket.size() + 1];
-                    for (int i = 0; i <= list_loket.size(); i++) {
-                        if (i == 0) {
-                            loket[i] = "---Pilih Loket---";
-                        } else {
-                            loket[i] = list_loket.get(i - 1).getLoketNama();
-                        }
+                list_loket = (ArrayList<Loket>) response.body().getData();
+                loket = new String[list_loket.size()+1];
+                for (int i =0;i<loket.length;i++){
+                    if(i ==0){
+                        loket[i] = "---Pilih Loket---";
+                        locket.put("0","pilihloket");
                     }
-                    final ArrayAdapter<String> loket_adapter = new ArrayAdapter<>(MainActivity.this,
-                            R.layout.sploket, loket);
-                    chooseLoket.setAdapter(loket_adapter);
-                    chooseLoket2.setAdapter(loket_adapter);
-                } else {
-
+                    else{
+                        locket.put(list_loket.get(i-1).getLoketNama(),list_loket.get(i-1).getLoketId());
+                        loket[i] = list_loket.get(i-1).getLoketNama();
+                        pengguna.put(list_loket.get(i-1).getLoketNama(),list_loket.get(i-1).getLoketPetugas());
+                    }
                 }
+                final ArrayAdapter<String> loket_adapter = new ArrayAdapter<>(MainActivity.this,
+                        R.layout.sploket, loket);
+                chooseLoket.setAdapter(loket_adapter);
             }
 
             @Override
-            public void onFailure(Call<ResponseLoket> call, Throwable t) {
+            public void onFailure(Call<ResponseLoket> call, Throwable throwable) {
 
             }
         });
     }
+
 
 }

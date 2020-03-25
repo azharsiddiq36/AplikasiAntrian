@@ -2,7 +2,7 @@ package com.azhar.aplikasiantrian.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Call {
+public class Antrian {
     @SerializedName("antrian_id")
     private String antrianId;
     @SerializedName("antrian_nomor")
@@ -10,9 +10,9 @@ public class Call {
     @SerializedName("antrian_layanan_id")
     private String antrianLayananId;
     @SerializedName("antrian_loket_id")
-    private Object antrianLoketId;
+    private String antrianLoketId;
     @SerializedName("antrian_nomor_aktif")
-    private Object antrianNomorAktif;
+    private String antrianNomorAktif;
     @SerializedName("antrian_jenis_panggilan")
     private String antrianJenisPanggilan;
     @SerializedName("antrian_nomor_alihan")
@@ -25,28 +25,44 @@ public class Call {
     private String antrianDateCreated;
     @SerializedName("antrian_status")
     private String antrianStatus;
-    @SerializedName("layanan_id")
-    private String layananId;
-    @SerializedName("layanan_nama")
-    private String layananNama;
-    @SerializedName("layanan_awalan")
-    private String layananAwalan;
-    @SerializedName("layanan_suara_nama")
-    private String layananSuaraNama;
-    @SerializedName("layanan_suara_awalan")
-    private String layananSuaraAwalan;
-    @SerializedName("layanan_date_created")
-    private String layananDateCreated;
 
-    public void setAntrianLoketId(Object antrianLoketId) {
+    public String getAntrianId() {
+        return antrianId;
+    }
+
+    public void setAntrianId(String antrianId) {
+        this.antrianId = antrianId;
+    }
+
+    public String getAntrianNomor() {
+        return antrianNomor;
+    }
+
+    public void setAntrianNomor(String antrianNomor) {
+        this.antrianNomor = antrianNomor;
+    }
+
+    public String getAntrianLayananId() {
+        return antrianLayananId;
+    }
+
+    public void setAntrianLayananId(String antrianLayananId) {
+        this.antrianLayananId = antrianLayananId;
+    }
+
+    public String getAntrianLoketId() {
+        return antrianLoketId;
+    }
+
+    public void setAntrianLoketId(String antrianLoketId) {
         this.antrianLoketId = antrianLoketId;
     }
 
-    public Object getAntrianNomorAktif() {
+    public String getAntrianNomorAktif() {
         return antrianNomorAktif;
     }
 
-    public void setAntrianNomorAktif(Object antrianNomorAktif) {
+    public void setAntrianNomorAktif(String antrianNomorAktif) {
         this.antrianNomorAktif = antrianNomorAktif;
     }
 
@@ -82,20 +98,19 @@ public class Call {
         this.antrianSuaraAlihan = antrianSuaraAlihan;
     }
 
-    public String getLayananSuaraNama() {
-        return layananSuaraNama;
+    public String getAntrianDateCreated() {
+        return antrianDateCreated;
     }
 
-    public void setLayananSuaraNama(String layananSuaraNama) {
-        this.layananSuaraNama = layananSuaraNama;
+    public void setAntrianDateCreated(String antrianDateCreated) {
+        this.antrianDateCreated = antrianDateCreated;
     }
 
-    public String getLayananSuaraAwalan() {
-        return layananSuaraAwalan;
+    public String getAntrianStatus() {
+        return antrianStatus;
     }
 
-    public void setLayananSuaraAwalan(String layananSuaraAwalan) {
-        this.layananSuaraAwalan = layananSuaraAwalan;
+    public void setAntrianStatus(String antrianStatus) {
+        this.antrianStatus = antrianStatus;
     }
-
 }

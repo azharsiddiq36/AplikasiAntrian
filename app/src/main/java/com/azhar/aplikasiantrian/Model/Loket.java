@@ -7,6 +7,10 @@ public class Loket {
     private String loketId;
     @SerializedName("loket_nama")
     private String loketNama;
+    @SerializedName("loket_alias")
+    private String loketAlias;
+    @SerializedName("loket_petugas")
+    private String loketPetugas;
     @SerializedName("loket_nomor")
     private String loketNomor;
     @SerializedName("loket_layanan_id")
@@ -21,24 +25,12 @@ public class Loket {
     private String layananNama;
     @SerializedName("layanan_awalan")
     private String layananAwalan;
+    @SerializedName("layanan_suara_nama")
+    private String layananSuaraNama;
+    @SerializedName("layanan_suara_awalan")
+    private String layananSuaraAwalan;
     @SerializedName("layanan_date_created")
     private String layananDateCreated;
-
-    public String getLoketWaktuPanggilan() {
-        return loketWaktuPanggilan;
-    }
-
-    public void setLoketWaktuPanggilan(String loketWaktuPanggilan) {
-        this.loketWaktuPanggilan = loketWaktuPanggilan;
-    }
-
-    public String getLayananAwalan() {
-        return layananAwalan;
-    }
-
-    public void setLayananAwalan(String layananAwalan) {
-        this.layananAwalan = layananAwalan;
-    }
 
     public String getLoketId() {
         return loketId;
@@ -56,6 +48,22 @@ public class Loket {
         this.loketNama = loketNama;
     }
 
+    public String getLoketAlias() {
+        return loketAlias;
+    }
+
+    public void setLoketAlias(String loketAlias) {
+        this.loketAlias = loketAlias;
+    }
+
+    public String getLoketPetugas() {
+        return loketPetugas;
+    }
+
+    public void setLoketPetugas(String loketPetugas) {
+        this.loketPetugas = loketPetugas;
+    }
+
     public String getLoketNomor() {
         return loketNomor;
     }
@@ -70,6 +78,14 @@ public class Loket {
 
     public void setLoketLayananId(String loketLayananId) {
         this.loketLayananId = loketLayananId;
+    }
+
+    public String getLoketWaktuPanggilan() {
+        return loketWaktuPanggilan;
+    }
+
+    public void setLoketWaktuPanggilan(String loketWaktuPanggilan) {
+        this.loketWaktuPanggilan = loketWaktuPanggilan;
     }
 
     public String getLoketDateCreated() {
@@ -94,6 +110,30 @@ public class Loket {
 
     public void setLayananNama(String layananNama) {
         this.layananNama = layananNama;
+    }
+
+    public String getLayananAwalan() {
+        return layananAwalan;
+    }
+
+    public void setLayananAwalan(String layananAwalan) {
+        this.layananAwalan = layananAwalan;
+    }
+
+    public String getLayananSuaraNama() {
+        return layananSuaraNama;
+    }
+
+    public void setLayananSuaraNama(String layananSuaraNama) {
+        this.layananSuaraNama = layananSuaraNama;
+    }
+
+    public String getLayananSuaraAwalan() {
+        return layananSuaraAwalan;
+    }
+
+    public void setLayananSuaraAwalan(String layananSuaraAwalan) {
+        this.layananSuaraAwalan = layananSuaraAwalan;
     }
 
     public String getLayananDateCreated() {

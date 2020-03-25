@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Aplikasi Antrian</string>
+    <string name="news">Check Latest News!</string>
+    <string name="local">Local News</string>
+    <string name="national">National News</string>
+    <string name="sports1">Sports One</string>
+    <string name="sports2">Sports Two</string>
+
+
+    <string-array name="local">
+    <item>Star Ledger</item>
+    <item>Ny Times</item>
+    <item>The Record</item>
+    <item>Trentorian</item>
+    </string-array>
 </resources>
